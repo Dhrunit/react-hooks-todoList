@@ -1,27 +1,29 @@
-import React from "react";
-import useInputState from "./hooks/useInputState";
-import TextField from "@material-ui/core/TextField";
-
-function EditTodoForm({ id, task, editTodo, toggleEditForm }) {
-  const [value, handleChange, reset] = useInputState(task);
-  return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-        editTodo(id, value);
-        reset();
-        toggleEditForm();
-      }}
-      style={{ marginLeft: "1rem", width: "50%" }}
-    >
-      <TextField
-        margin='normal'
-        value={value}
-        onChange={handleChange}
-        fullWidth
-        autoFocus
-      />
-    </form>
-  );
+import React, { useContext } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import useInputState from './hooks/useInputState';
+import { TodosContext } from './contexts/todos.context';
+function TodoForm() {
+	const [value, handleChange, reset] = useInputState('');
+	const { addTodo } = useContext(TodosContext);
+	console.log('TODO FORM RENDER!!!');
+	return (
+		<Paper style={{ margin: '1rem 0', padding: '0 1rem' }}>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					addTodo(value);
+					reset();
+				}}>
+				<TextField
+					value={value}
+					onChange={handleChange}
+					margin='normal'
+					label='Add New Todo'
+					fullWidth
+				/>
+			</form>
+		</Paper>
+	);
 }
-export default EditTodoForm;
+export default TodoForm;
